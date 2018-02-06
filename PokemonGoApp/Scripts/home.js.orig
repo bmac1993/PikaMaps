@@ -1,0 +1,246 @@
+﻿var self = this;
+var MAP;
+var CURRENT_COORDS = { lat: 0, lng: 0 };
+var COORDS_TO_ADD = { lat: 0, lng: 0 };
+var pokedex = [
+    { "id": 1, text: "Bulbasaur" },
+    { "id": 2, text: "Ivysaur" },
+    { "id": 3, text: "Venusaur" },
+    { "id": 4, text: "Charmander" },
+    { "id": 5, text: "Charmeleon" },
+    { "id": 6, text: "Charizard" },
+    { "id": 7, text: "Squirtle" },
+    { "id": 8, text: "Wartortle" },
+    { "id": 9, text: "Blastoise" },
+    { "id": 10, text: "Caterpie" },
+    { "id": 11, text: "Metapod" },
+    { "id": 12, text: "Butterfree" },
+    { "id": 13, text: "Weedle" },
+    { "id": 14, text: "Kakuna" },
+    { "id": 15, text: "Beedrill" },
+    { "id": 16, text: "Pidgey" },
+    { "id": 17, text: "Pidgeotto" },
+    { "id": 18, text: "Pidgeot" },
+    { "id": 19, text: "Rattata" },
+    { "id": 20, text: "Raticate" },
+    { "id": 21, text: "Spearow" },
+    { "id": 22, text: "Fearow" },
+    { "id": 23, text: "Ekans" },
+    { "id": 24, text: "Arbok" },
+    { "id": 25, text: "Pikachu" },
+    { "id": 26, text: "Raichu" },
+    { "id": 27, text: "Sandshrew" },
+    { "id": 28, text: "Sandslash" },
+    { "id": 29, text: "Nidoran♀" },
+    { "id": 30, text: "Nidorina" },
+    { "id": 31, text: "Nidoqueen" },
+    { "id": 32, text: "Nidoran♂" },
+    { "id": 33, text: "Nidorino" },
+    { "id": 34, text: "Nidoking" },
+    { "id": 35, text: "Clefairy" },
+    { "id": 36, text: "Clefable" },
+    { "id": 37, text: "Vulpix" },
+    { "id": 38, text: "Ninetales" },
+    { "id": 39, text: "Jigglypuff" },
+    { "id": 40, text: "Wigglytuff" },
+    { "id": 41, text: "Zubat" },
+    { "id": 42, text: "Golbat" },
+    { "id": 43, text: "Oddish" },
+    { "id": 44, text: "Gloom" },
+    { "id": 45, text: "Vileplume" },
+    { "id": 46, text: "Paras" },
+    { "id": 47, text: "Parasect" },
+    { "id": 48, text: "Venonat" },
+    { "id": 49, text: "Venomoth" },
+    { "id": 50, text: "Diglett" },
+    { "id": 51, text: "Dugtrio" },
+    { "id": 52, text: "Meowth" },
+    { "id": 53, text: "Persian" },
+    { "id": 54, text: "Psyduck" },
+    { "id": 55, text: "Golduck" },
+    { "id": 56, text: "Mankey" },
+    { "id": 57, text: "Primeape" },
+    { "id": 58, text: "Growlithe" },
+    { "id": 59, text: "Arcanine" },
+    { "id": 60, text: "Poliwag" },
+    { "id": 61, text: "Poliwhirl" },
+    { "id": 62, text: "Poliwrath" },
+    { "id": 63, text: "Abra" },
+    { "id": 64, text: "Kadabra" },
+    { "id": 65, text: "Alakazam" },
+    { "id": 66, text: "Machop" },
+    { "id": 67, text: "Machoke" },
+    { "id": 68, text: "Machamp" },
+    { "id": 69, text: "Bellsprout" },
+    { "id": 70, text: "Weepinbell" },
+    { "id": 71, text: "Victreebel" },
+    { "id": 72, text: "Tentacool" },
+    { "id": 73, text: "Tentacruel" },
+    { "id": 74, text: "Geodude" },
+    { "id": 75, text: "Graveler" },
+    { "id": 76, text: "Golem" },
+    { "id": 77, text: "Ponyta" },
+    { "id": 78, text: "Rapidash" },
+    { "id": 79, text: "Slowpoke" },
+    { "id": 80, text: "Slowbro" },
+    { "id": 81, text: "Magnemite" },
+    { "id": 82, text: "Magneton" },
+    { "id": 83, text: "Farfetch'd" },
+    { "id": 84, text: "Doduo" },
+    { "id": 85, text: "Dodrio" },
+    { "id": 86, text: "Seel" },
+    { "id": 87, text: "Dewgong" },
+    { "id": 87, text: "Grimer" },
+    { "id": 89, text: "Muk" },
+    { "id": 90, text: "Shellder" },
+    { "id": 91, text: "Cloyster" },
+    { "id": 92, text: "Gastly" },
+    { "id": 93, text: "Haunter" },
+    { "id": 94, text: "Gengar" },
+    { "id": 95, text: "Onix" },
+    { "id": 96, text: "Drowzee" },
+    { "id": 97, text: "Hypno" },
+    { "id": 98, text: "Krabby" },
+    { "id": 99, text: "Kingler" },
+    { "id": 100, text: "Voltorb" },
+    { "id": 101, text: "Electrode" },
+    { "id": 102, text: "Exeggcute" },
+    { "id": 103, text: "Exeggutor" },
+    { "id": 104, text: "Cubone" },
+    { "id": 105, text: "Marowak" },
+    { "id": 106, text: "Hitmonlee" },
+    { "id": 107, text: "Hitmonchan" },
+    { "id": 108, text: "Lickitung" },
+    { "id": 109, text: "Koffing" },
+    { "id": 110, text: "Weezing" },
+    { "id": 111, text: "Rhyhorn" },
+    { "id": 112, text: "Rhydon" },
+    { "id": 113, text: "Chansey" },
+    { "id": 114, text: "Tangela" },
+    { "id": 115, text: "Kangaskhan" },
+    { "id": 116, text: "Horsea" },
+    { "id": 117, text: "Seadra" },
+    { "id": 118, text: "Goldeen" },
+    { "id": 119, text: "Seaking" },
+    { "id": 120, text: "Staryu" },
+    { "id": 121, text: "Starmie" },
+    { "id": 122, text: "Mr. Mime" },
+    { "id": 123, text: "Scyther" },
+    { "id": 124, text: "Jynx" },
+    { "id": 125, text: "Electabuzz" },
+    { "id": 126, text: "Magmar" },
+    { "id": 127, text: "Pinsir" },
+    { "id": 128, text: "Tauros" },
+    { "id": 129, text: "Magikarp" },
+    { "id": 130, text: "Gyarados" },
+    { "id": 131, text: "Lapras" },
+    { "id": 132, text: "Ditto" },
+    { "id": 133, text: "Eevee" },
+    { "id": 134, text: "Vaporeon" },
+    { "id": 135, text: "Jolteon" },
+    { "id": 136, text: "Flareon" },
+    { "id": 137, text: "Porygon" },
+    { "id": 138, text: "Omanyte" },
+    { "id": 139, text: "Omastar" },
+    { "id": 140, text: "Kabuto" },
+    { "id": 141, text: "Kabutops" },
+    { "id": 142, text: "Aerodactyl" },
+    { "id": 143, text: "Snorlax" },
+    { "id": 144, text: "Articuno" },
+    { "id": 145, text: "Zapdos" },
+    { "id": 146, text: "Moltres" },
+    { "id": 147, text: "Dratini" },
+    { "id": 148, text: "Dragonair" },
+    { "id": 149, text: "Dragonite" },
+    { "id": 150, text: "Mewtwo" },
+    { "id": 151, text: "Mew" }
+]
+
+function initMap() {
+    MAP = new google.maps.Map(document.getElementById('map'), {
+        center: CURRENT_COORDS,
+        zoom: 15
+    });
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            MAP.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+        }, function() {
+            handleLocationError(true, infoWindow, MAP.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, MAP.getCenter());
+    }
+
+    function addMarker(pokemon) {
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(pokemon.Location.Latitude, pokemon.Location.Longitude),
+            map: MAP
+        });
+    }
+
+    MAP.addListener('bounds_changed', function () {
+        // update pins
+    });
+
+    MAP.addListener("rightclick", function (event) {
+        COORDS_TO_ADD.lat = event.latLng.lat();
+        COORDS_TO_ADD.lng = event.latLng.lng();
+
+        $('#AddPokemonModal').modal({
+            backdrop: 'static'
+        });
+    });
+
+    $.ajax({
+        url: "/Home/GetPokemonLocations",
+        type: "GET",
+        dataType: "json",
+        success: function (pokemon) {
+            for(var i = 0; i<pokemon.length; i++)
+            {
+                addMarker(pokemon[i]);
+            }
+        },
+        error: function () {
+        }
+    });
+<<<<<<< HEAD
+});
+
+$("#pokepicker").select2({
+    width: "100%",
+    data:pokedex
+});
+=======
+
+    $("#AddPokemonLocation").click(function () {
+
+        $.ajax({
+            url: "/Home/AddPokemonLocation",
+            type: "POST",
+            dataType: "json",
+            data: { "name": "test", "lat": COORDS_TO_ADD.lat, "lng": COORDS_TO_ADD.lng },
+            success: function (pokemon) {
+                addMarker(pokemon);
+                $('#AddPokemonModal').modal('hide');
+            },
+            error: function () {
+            }
+        });
+    });
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
+}
+>>>>>>> lol3

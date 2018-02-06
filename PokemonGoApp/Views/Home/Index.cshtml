@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "PikaMaps - Pokémon Go Map";
+}
+
+<div class="col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="col-sm-12 hidden-xs" style="text-align: center;">
+            <img src="~/Resources/PokemapsHeader.jpg" style="max-width: 450px;"/>
+        </div>
+        <div class="col-xs-12 hidden-sm col-sm-12 hidden-md hidden-lg" style="text-align: center;">
+            <img src="~/Resources/PokemapsHeader.jpg" style="max-width: 300px;"/>
+        </div>
+        <div class="col-lg-1"></div>
+
+        <div class="col-sm-12 col-xs-12 col-lg-10" style="padding-left: 0 !important; padding-right: 0 !important;">
+            <div class="hidden-xs" style="color: #f6ce17; font-size: 16px; margin-top: 10px; text-align: center;">@Resources.Home.WelcomeText @Resources.Home.RightClickToAdd</div>
+            <div class="hidden-sm hidden-md hidden-lg" style="color: #f6ce17; font-size: 11px; margin-top: 10px; text-align: center;">Click and hold on the map to add a Pokemon sighting!</div>
+
+            <div id="map" style="height: 500px; margin-left: 0; margin-top: 10px; margin-right: 0;"></div>
+            <div style="position: relative; top: -490px; left: 10px; z-index: 1; width:180px">
+                <select id="filterPicker" style="height: 20px;" placeholder="Pokemon Search" class="form-control">
+                    <option value="0">All Pokemon</option>
+                </select>
+            </div>
+            <button id="TurnOnLive" style="position:relative; top:-520px; right:10px; float:right;background-color: #333333; border-color: #e3b041; color: #e3b041;" class="btn" data-toggle="tooltip" data-placement="left" title="Live mode will show only Pokemon reported in the last 15 minutes.">Live Mode: OFF</button>
+            <button id="TurnOffLive" style="position:relative; display:none; top:-520px; right:10px; float:right;background-color:#e3b041;" class="btn">Live Mode: ON</button>           
+        </div>
+        <div class="col-lg-1"></div>
+        <div></div>
+    </div>
+</div>
+<div class="col-xs-12" style="margin-bottom:10px;">
+    <div style="font-size:10px; color:white; text-align:center;">
+        <a style="color:white;" target="_blank" href="https://www.facebook.com/pikamaps/">
+            <img src="~/Resources/facebook.png" style="width:20px;position:relative;top:-2px;" />
+            &nbsp;Like and Share us on Facebook
+        </a>   |   Need help? Email <a style="color:#f6ce17;" href="mailto:support@pikamaps.com">support@pikamaps.com</a>
+    </div>
+</div>
+
+<div class="modal fade" id="AddPokemonModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Add Pokemon Location</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="width:280px;">
+                    <label>Select Pokemon</label><br/>
+                    <select id="pokepicker" class="form-control">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Time Found</label>
+                    <input type="text" id="addPicker" placeholder="Date & Time" class="form-control timepicker"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="AddPokemonLocation" class="btn btn-success" data-dismiss="modal">Add</button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="AddInstanceModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 id="ModalTitle" class="modal-title"></h2>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" style="display:none;" id="Instances">
+                        <div>
+                            <span id="NumTimes"></span>
+                        </div>
+                        <div id="InstanceList" style="max-height:300px; overflow-y:scroll;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Time Seen</label>
+                        <input type="text" id="instancePicker" placeholder="Date & Time" class="form-control timepicker" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Nope</button>
+                    <button type="button" id="AddPokemonInstance" class="btn btn-success" data-dismiss="modal">Yupp</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts{
+    @Scripts.Render("~/site/javascript")
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMh1sPPbr1oA40xoGU9Egq4-AOiAYWQFs&callback=initMap" async defer></script>
+}
+

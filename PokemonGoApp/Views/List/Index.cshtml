@@ -1,0 +1,28 @@
+﻿@model PokemonGoApp.ViewModels.PokemonListViewModel
+
+@{
+    ViewBag.Title = "Pokemon List";
+}
+<h2>@ViewBag.Title.</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Hour</th>
+        <th>Minute</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    @foreach (var location in Model.Data)
+    {
+        <tr>
+            <td>@location.Id</td>
+            <td>@location.Name</td>
+            <td>@location.Hour</td>
+            <td>@location.Minute</td>
+            <td>@location.Location.Latitude , @location.Location.Longitude</td>
+        </tr>
+    }
+</table>
