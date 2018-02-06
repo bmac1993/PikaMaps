@@ -98,8 +98,9 @@ namespace PokemonGoApp.Services
             return clusters.Find(query).ToList();
         }
 
-        {
-            var locations = _db.GetCollection<PokemonLocation>("PokemonLocations");
+		public int GetRecentSightingsCountByIP(string userAgent, string ipAddress, int minutes)
+		{
+			var locations = _db.GetCollection<PokemonLocation>("PokemonLocations");
             var query = Query<PokemonLocation>.EQ(a => a.UserAgent, userAgent);
             query = Query.And(query, Query<PokemonLocation>.EQ(a => a.IpAddress, ipAddress));
             query = Query.And(query, Query<PokemonLocation>.GT(a => a.DateCreated, DateTime.UtcNow.AddMinutes(-minutes)));

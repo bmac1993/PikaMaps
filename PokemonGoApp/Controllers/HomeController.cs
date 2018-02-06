@@ -130,7 +130,7 @@ namespace PokemonGoApp.Controllers
                 return true;
             }
 
-            var records = _mongoService.GetRecentSightingsCountByIp(userAgent, userHostAddress, 5);
+            var records = _mongoService.GetRecentSightingsCountByIP(userAgent, userHostAddress, 5);
             if (records >= 20)
             {
                 _mongoService.AddUserRequestData(new UserRequestObject()
